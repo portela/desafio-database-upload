@@ -8,7 +8,7 @@ export default class CreateCategory1587680399409 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'varchar',
+            type: 'uuid',
             isPrimary: true,
             generationStrategy: 'uuid',
             default: 'uuid_generate_v4()',
@@ -19,11 +19,13 @@ export default class CreateCategory1587680399409 implements MigrationInterface {
           },
           {
             name: 'created_at',
-            type: 'timestamp with time zone',
+            type: 'timestamp',
+            default: 'now()',
           },
           {
             name: 'modified_at',
-            type: 'timestamp with time zone',
+            type: 'timestamp',
+            default: 'now()',
           },
         ],
       }),

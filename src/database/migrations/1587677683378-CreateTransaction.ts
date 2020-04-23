@@ -9,7 +9,7 @@ export default class CreateTransaction1587677683378
         columns: [
           {
             name: 'id',
-            type: 'varchar',
+            type: 'uuid',
             isPrimary: true,
             generationStrategy: 'uuid',
             default: 'uuid_generate_v4()',
@@ -33,11 +33,13 @@ export default class CreateTransaction1587677683378
           },
           {
             name: 'created_at',
-            type: 'timestamp with time zone',
+            type: 'timestamp',
+            default: 'now()',
           },
           {
             name: 'updated_at',
-            type: 'timestamp with time zone',
+            type: 'timestamp',
+            default: 'now()',
           },
         ],
       }),
@@ -45,6 +47,6 @@ export default class CreateTransaction1587677683378
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('transaction');
+    await queryRunner.dropTable('transactions');
   }
 }
