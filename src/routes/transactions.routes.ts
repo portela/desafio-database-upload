@@ -28,7 +28,13 @@ transactionsRouter.post('/', async (request, response) => {
       category,
     });
 
-    return response.json(transaction);
+    const categoryObj = transaction.category;
+    delete transaction.category_id;
+    delete transaction.category;
+    delete transaction.created_at;
+    delete transaction.updated_at;
+
+    return response.json({ ...transaction, category: categoryObj.title });
   } catch (err) {
     return response.status(400).json({ error: err.message });
   }

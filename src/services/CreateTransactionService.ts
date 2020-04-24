@@ -23,6 +23,10 @@ class CreateTransactionService {
   }: Request): Promise<Transaction> {
     const transactionRepository = getCustomRepository(TransactionRepository);
 
+    if (type !== 'income' && type !== 'outcome') {
+      throw Error('Type must income or outcome.');
+    }
+
     const balance = await transactionRepository.getBalance();
 
     if (type === 'outcome' && value > balance.total) {
