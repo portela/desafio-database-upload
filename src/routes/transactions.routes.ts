@@ -28,20 +28,27 @@ transactionsRouter.post('/', async (request, response) => {
       category,
     });
 
-    const categoryObj = transaction.category;
-    delete transaction.category_id;
-    delete transaction.category;
-    delete transaction.created_at;
-    delete transaction.updated_at;
+    /*
+    Formatting output:
+      const categoryObj = transaction.category;
+      delete transaction.category_id;
+      delete transaction.category;
+      delete transaction.created_at;
+      delete transaction.updated_at;
+      return response.json({ ...transaction, category: categoryObj.title });
+    */
 
-    return response.json({ ...transaction, category: categoryObj.title });
+    return response.json(transaction);
   } catch (err) {
     return response.status(400).json({ error: err.message });
   }
 });
 
 transactionsRouter.delete('/:id', async (request, response) => {
-  // TODO
+  const { id } = request.params;
+  const transactionsRepository = getCustomRepository(TransactionsRepository);
+  await transactionsRepository.delete(id);
+  return response.status(204).send();
 });
 
 transactionsRouter.post('/import', async (request, response) => {
