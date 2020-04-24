@@ -21,7 +21,7 @@ export default class CreateJunction1587683663477 implements MigrationInterface {
       new TableForeignKey({
         name: 'TransactionCategory',
         columnNames: ['category_id'],
-        referencedTableName: 'category',
+        referencedTableName: 'categories',
         referencedColumnNames: ['id'],
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE',
