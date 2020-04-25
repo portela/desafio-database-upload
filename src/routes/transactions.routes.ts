@@ -27,16 +27,6 @@ transactionsRouter.post('/', async (request, response) => {
     category,
   });
 
-  /*
-    Formatting output:
-      const categoryObj = transaction.category;
-      delete transaction.category_id;
-      delete transaction.category;
-      delete transaction.created_at;
-      delete transaction.updated_at;
-      return response.json({ ...transaction, category: categoryObj.title });
-    */
-
   return response.json(transaction);
 });
 
