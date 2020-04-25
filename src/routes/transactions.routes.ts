@@ -3,7 +3,7 @@ import { Router } from 'express';
 import { getCustomRepository } from 'typeorm';
 import TransactionsRepository from '../repositories/TransactionsRepository';
 import CreateTransactionService from '../services/CreateTransactionService';
-// import DeleteTransactionService from '../services/DeleteTransactionService';
+import DeleteTransactionService from '../services/DeleteTransactionService';
 // import ImportTransactionsService from '../services/ImportTransactionsService';
 
 const transactionsRouter = Router();
@@ -17,18 +17,17 @@ transactionsRouter.get('/', async (request, response) => {
 });
 
 transactionsRouter.post('/', async (request, response) => {
-  try {
-    const { title, value, type, category } = request.body;
-    const createTransactionService = new CreateTransactionService();
+  const { title, value, type, category } = request.body;
+  const createTransactionService = new CreateTransactionService();
 
-    const transaction = await createTransactionService.execute({
-      title,
-      value,
-      type,
-      category,
-    });
+  const transaction = await createTransactionService.execute({
+    title,
+    value,
+    type,
+    category,
+  });
 
-    /*
+  /*
     Formatting output:
       const categoryObj = transaction.category;
       delete transaction.category_id;
@@ -38,16 +37,14 @@ transactionsRouter.post('/', async (request, response) => {
       return response.json({ ...transaction, category: categoryObj.title });
     */
 
-    return response.json(transaction);
-  } catch (err) {
-    return response.status(400).json({ error: err.message });
-  }
+  return response.json(transaction);
 });
 
 transactionsRouter.delete('/:id', async (request, response) => {
   const { id } = request.params;
-  const transactionsRepository = getCustomRepository(TransactionsRepository);
-  await transactionsRepository.delete(id);
+  const deleteTransactionService = new DeleteTransactionService();
+  deleteTransactionService.execute(id);
+
   return response.status(204).send();
 });
 
