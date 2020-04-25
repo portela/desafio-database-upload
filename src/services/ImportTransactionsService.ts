@@ -13,7 +13,7 @@ interface CSVTransaction {
 }
 
 class ImportTransactionsService {
-  async execute(filepath: string): Promise<Transaction[]> {
+  async execute(filepath: string): Promise<void> {
     // https://www.notion.so/Importando-arquivos-CSV-com-Node-js-2172338480cb47e28a5d3ed9981c38a0
     const readCSVStream = fs.createReadStream(filepath, 'utf8');
 
@@ -38,22 +38,13 @@ class ImportTransactionsService {
 
     console.log(csvTransactions);
 
+    const transactions: Transaction[] = [];
     const createTransactionService = new CreateTransactionService();
 
-    /*
-    const transactions = Transaction[];
-
-    const transaction = await createTransactionService.execute({
-      title,
-      value,
-      type,
-      category,
+    csvTransactions.forEach(async csvData => {
+      const transaction = await createTransactionService.execute(csvData);
+      transactions.push(transaction);
     });
-
-    transactions.push(transaction)
-
-    return transactions;
-    */
   }
 }
 
