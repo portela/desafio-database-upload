@@ -1,9 +1,7 @@
 import csvParse from 'csv-parse';
 import fs from 'fs';
 
-import Transaction from '../models/Transaction';
 import CreateTransactionService from './CreateTransactionService';
-import AppError from '../errors/AppError';
 
 interface CSVTransaction {
   title: string;
@@ -36,15 +34,20 @@ class ImportTransactionsService {
 
     await new Promise(resolve => parseCSV.on('end', resolve));
 
-    console.log(csvTransactions);
-
-    const transactions: Transaction[] = [];
     const createTransactionService = new CreateTransactionService();
 
-    csvTransactions.forEach(async csvData => {
-      const transaction = await createTransactionService.execute(csvData);
-      transactions.push(transaction);
+    /*
+      https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop
+
+    csvTransactions.map(async csvData => {
+      await createTransactionService.execute(csvData);
+      console.log('1');
     });
+    */
+
+    for (let i = 0; i < csvTransactions.length; i += 1) {
+      await createTransactionService.execute(csvTransactions[i]); // eslint-disable-line
+    }
   }
 }
 

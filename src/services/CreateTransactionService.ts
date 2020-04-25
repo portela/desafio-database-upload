@@ -38,7 +38,7 @@ class CreateTransactionService {
     });
 
     if (!category) {
-      category = await categoryRepository.create({ title: categoryTitle });
+      category = categoryRepository.create({ title: categoryTitle });
       await categoryRepository.save(category);
     }
 
